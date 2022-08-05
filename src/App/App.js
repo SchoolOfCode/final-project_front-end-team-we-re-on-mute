@@ -8,7 +8,6 @@ import Contacts from "../Component/Contacts/Contacts";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Footer from "../Component/Footer/Footer";
 import Authentication from "../Component/Authentication/Authentication";
-
 function App() {
   return (
     <div className="App">

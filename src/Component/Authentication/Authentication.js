@@ -1,98 +1,59 @@
-import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { useRef, useState } from "react";
 
-function App() {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+import { signup, login, logout, useAuth } from "../../firebase-config";
 
-  const [user, setUser] = useState({});
+function Authentication() {
+  const [ loading, setLoading ] = useState(false);
+  const currentUser = useAuth();
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
-  const register = async () => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  //fuction that handles singup 
+  async function handleSignup() {
+    setLoading(true);
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
+      await signup(emailRef.current.value, passwordRef.current.value);
+    } catch {
+      alert("Error this email already exists!"); //if 
     }
-  };
+    setLoading(false);
+  }
 
-  const login = async () => {
+  async function handleLogin() {
+    setLoading(true);
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
+      await login(emailRef.current.value, passwordRef.current.value);
+    } catch {
+      alert("Error wrong Email/password!");
     }
-  };
+    setLoading(false);
+  }
 
-  const logout = async () => {
-    await signOut(auth);
-  };
+  async function handleLogout() {
+    setLoading(true);
+    try {
+      await logout();
+    } catch {
+      alert("Error!");
+    }
+    setLoading(false);
+  }
 
   return (
-    <div className="App">
-      <div>
-        <h3> Register User </h3>
-        <input
-          placeholder="Email..."
-          onChange={(event) => {
-            setRegisterEmail(event.target.value);
-          }}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(event) => {
-            setRegisterPassword(event.target.value);
-          }}
-        />
+    <div id="main">
+      
+      <div>Currently logged in as: { currentUser?.email } </div>
 
-        <button onClick={register}> Create User</button>
+      <div id="fields">
+        <input ref={emailRef} placeholder="Email" />
+        <input ref={passwordRef} type="password" placeholder="Password" />
       </div>
 
-      <div>
-        <h3> Login </h3>
-        <input
-          placeholder="Email..."
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-        />
-        <input
-          placeholder="Password..."
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-        />
+      <button disabled={ loading || currentUser } onClick={handleSignup}>Sign Up</button>
+      <button disabled={ loading || currentUser } onClick={handleLogin}>Log In</button>
+      <button disabled={ loading || !currentUser } onClick={handleLogout}>Log Out</button>
 
-        <button onClick={login}> Login</button>
-      </div>
-
-      <h4> User Logged In: </h4>
-      {user?.email}
-
-      <button onClick={logout}> Sign Out </button>
     </div>
   );
 }
-
-export default App;
+export default Authentication;

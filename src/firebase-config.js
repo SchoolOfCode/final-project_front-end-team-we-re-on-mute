@@ -1,5 +1,7 @@
-import { initializeApp } from "firebase/app"
-import {getAuth } from "firebase/auth";
+
+import { useEffect, useState } from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
 
 const firebaseConfig = {
@@ -12,7 +14,48 @@ const firebaseConfig = {
   measurementId: "G-DCTBHJV3ZG"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app)
+  // apiKey:process.env.apiKey,
+  // authDomain: process.env.authDomain,
+  // projectId: process.env.projectId,
+  // storageBucket: process.env.storageBucket,
+  // messagingSenderId: process.env.messagingSenderId,
+  // appId:process.env.appId,
+  // measurementId: process.env.measurementId
+
+
+  // apiKey:process.env.APIKEY,
+  // authDomain: process.env.AUTHDOMAIN,
+  // projectId: process.env.PROJECTID,
+  // storageBucket: process.env.STORAGEBUCKET,
+  // messagingSenderId: process.env.MESSAGINGSENDERID,
+  // appId:process.env.APPID,
+  // measurementId: process.env.MEASUREMENTID
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+export function signup(email, password) {
+  return createUserWithEmailAndPassword(auth, email, password);
+}
+
+export function login(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+export function logout() {
+  return signOut(auth);
+}
+
+// Custom Hook
+export function useAuth() {
+  const [ currentUser, setCurrentUser ] = useState();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, user => setCurrentUser(user));
+    return unsub;
+  }, [])
+
+  return currentUser;
+}

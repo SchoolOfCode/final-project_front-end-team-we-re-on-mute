@@ -91,3 +91,10 @@
   width: 75px;
   height: 65px;
 }
+
+@media (min-width: 600px) {
+  .header {
+      width: 60%;
+      margin-left: 20%;
+  }
+}

@@ -1,6 +1,6 @@
 .Icon {
-  width: 65px;
-  height: 65px;
+  width: 80px;
+  height: 80px;
   padding: 30px;
   background-image: linear-gradient(180deg, #ffdd4a, #fe9000);
   color: #094074;
@@ -18,4 +18,10 @@
 .main-homebutton {
   text-decoration: none;
   text-align: center;
+}
+
+@media (min-width: 600px) {
+  .Icon {
+      padding: 60px;
+  }
 }

@@ -21,3 +21,10 @@
     text-decoration: underline;
     padding-bottom: 3px;
 }
+
+@media (min-width: 600px) {
+    .footer {
+        width: 60%;
+        margin-left: 20%;
+    }
+  }

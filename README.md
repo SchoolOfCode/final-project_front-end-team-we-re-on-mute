@@ -1,14 +1,4 @@
 # Holiday Helper
-
-## The Team
-
-- [@lalicia](https://www.github.com/lalicia)
-- [@mandark1](https://www.github.com/mandark1)
-- [@harryevans1997](https://github.com/harryevans1997)
-- [@hassa09](https://github.com/hassa09)
-- [@Matt994](https://github.com/Matt994)
-- [@JedHumphries](https://github.com/JedHumphries)
-
 ## The Project
 
 As a newly assembled team of six, we were assigned an open brief to design a full-stack application as a solution to a problem we identified. Working with an agile methodology, we had four weeks to ideate, plan, design, and implement our chosen solution.
